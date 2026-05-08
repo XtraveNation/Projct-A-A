@@ -1,0 +1,9 @@
+.git
+.github
+workflows-templates
+jobpilot
+db.sqlite3*
+jobpilot.config.json
+*.log
+README.md
+AGENTS.md

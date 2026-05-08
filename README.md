@@ -20,7 +20,30 @@ JobPilot is built to be **profitable**, **easy to deploy on any VPS**, and **eas
 
 ---
 
-## 🚀 One-command install on a fresh VPS
+## 🐳 Run with Docker (recommended)
+
+```bash
+# Build it yourself (any VPS with Docker):
+git clone https://github.com/XtraveNation/Projct-A-A.git jobpilot && cd jobpilot
+cp .env.example .env  # edit with your keys
+docker compose up -d
+```
+
+Or pull the prebuilt multi-arch image once GitHub Actions has built it (after enabling `workflows-templates/docker.yml`):
+
+```bash
+docker run -d --name jobpilot \
+  -p 8000:8000 \
+  -v jobpilot_data:/data \
+  -e ADMIN_EMAILS=you@example.com \
+  -e OPENAI_API_KEY=sk-... \
+  --restart unless-stopped \
+  ghcr.io/xtravenation/projct-a-a:latest
+```
+
+The image is **~25 MB** (distroless, static binary, no shell). Templates and static assets are embedded — `/data` is the only thing you need to persist (SQLite + config).
+
+## 🚀 One-command install on a fresh VPS (no Docker)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/XtraveNation/Projct-A-A/main/install.sh | \

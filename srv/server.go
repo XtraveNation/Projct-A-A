@@ -2,14 +2,14 @@ package srv
 
 import (
 	"database/sql"
+	"embed"
 	"fmt"
 	"html/template"
+	"io/fs"
 	"log/slog"
 	"net/http"
 	"net/url"
 	"os"
-	"path/filepath"
-	"runtime"
 	"strings"
 	"sync"
 	"time"
@@ -18,26 +18,23 @@ import (
 	"srv.exe.dev/db/dbgen"
 )
 
+//go:embed templates/*.html
+var templatesFS embed.FS
+
+//go:embed static
+var staticFS embed.FS
+
 type Server struct {
-	DB           *sql.DB
-	Hostname     string
-	TemplatesDir string
-	StaticDir    string
-	AI           *AIClient
-	Config       *Config
-	cfgMu        sync.RWMutex
-	startedAt    time.Time
+	DB        *sql.DB
+	Hostname  string
+	AI        *AIClient
+	Config    *Config
+	cfgMu     sync.RWMutex
+	startedAt time.Time
 }
 
 func New(dbPath, hostname string) (*Server, error) {
-	_, thisFile, _, _ := runtime.Caller(0)
-	baseDir := filepath.Dir(thisFile)
-	s := &Server{
-		Hostname:     hostname,
-		TemplatesDir: filepath.Join(baseDir, "templates"),
-		StaticDir:    filepath.Join(baseDir, "static"),
-		startedAt:    time.Now(),
-	}
+	s := &Server{Hostname: hostname, startedAt: time.Now()}
 	if err := s.setUpDatabase(dbPath); err != nil {
 		return nil, err
 	}
@@ -161,9 +158,7 @@ func (s *Server) render(w http.ResponseWriter, name string, data map[string]any)
 		"fmtTime": func(t time.Time) string { return t.Format("Jan 2, 2006 15:04") },
 		"hasPrefix": strings.HasPrefix,
 	}
-	layout := filepath.Join(s.TemplatesDir, "layout.html")
-	page := filepath.Join(s.TemplatesDir, name)
-	tmpl, err := template.New("layout.html").Funcs(funcs).ParseFiles(layout, page)
+	tmpl, err := template.New("layout.html").Funcs(funcs).ParseFS(templatesFS, "templates/layout.html", "templates/"+name)
 	if err != nil {
 		slog.Error("parse template", "name", name, "error", err)
 		http.Error(w, "template error", 500)
@@ -222,7 +217,8 @@ func (s *Server) Serve(addr string) error {
 	// Health/API
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, "ok") })
 
-	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir(s.StaticDir))))
+	staticSub, _ := fs.Sub(staticFS, "static")
+	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(staticSub))))
 
 	slog.Info("jobpilot starting", "addr", addr, "hostname", s.Hostname)
 	return http.ListenAndServe(addr, withRecover(mux))

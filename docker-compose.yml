@@ -1,0 +1,27 @@
+services:
+  jobpilot:
+    # Build locally:
+    build: .
+    # Or pull the prebuilt image from GitHub Container Registry:
+    # image: ghcr.io/xtravenation/projct-a-a:latest
+    container_name: jobpilot
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - jobpilot_data:/data
+    environment:
+      ADMIN_EMAILS: ${ADMIN_EMAILS:-you@example.com}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
+      PUBLIC_URL: ${PUBLIC_URL:-}
+      BRAND_NAME: ${BRAND_NAME:-JobPilot AI}
+    healthcheck:
+      test: ["CMD", "/app/jobpilot", "-listen", ":0"]   # binary exists
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  jobpilot_data:
