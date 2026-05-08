@@ -1,0 +1,20 @@
+[Unit]
+Description=JobPilot AI server
+After=network.target
+
+[Service]
+Type=simple
+User=exedev
+Group=exedev
+WorkingDirectory=/home/exedev/jobpilot
+ExecStart=/home/exedev/jobpilot/jobpilot -listen :8000
+Restart=on-failure
+RestartSec=3
+Environment=JOBPILOT_CONFIG=/home/exedev/jobpilot/jobpilot.config.json
+# Optionally provide env via systemd:
+# Environment=OPENAI_API_KEY=sk-...
+# Environment=ADMIN_EMAILS=you@example.com
+# Environment=PUBLIC_URL=https://jobpilot.example.com
+
+[Install]
+WantedBy=multi-user.target

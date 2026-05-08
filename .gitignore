@@ -1,0 +1,6 @@
+/jobpilot
+db.sqlite3
+db.sqlite3-*
+jobpilot.config.json
+*.log
+.DS_Store

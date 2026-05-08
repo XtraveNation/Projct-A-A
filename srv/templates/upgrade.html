@@ -1,0 +1,21 @@
+{{define "title"}}Upgrade — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>Upgrade to Pro</h1>
+<p>Unlimited tailored resumes, cover letters, and interview prep.</p>
+<div class="plans">
+  <div class="plan featured">
+    <h3>Pro</h3><div class="price">${{.PriceUSD}}<span>/mo</span></div>
+    {{if .ProCheckoutURL}}<a class="btn primary" href="{{.ProCheckoutURL}}">Checkout</a>
+    {{else}}<p class="muted">Checkout link not configured. Ask the admin.</p>{{end}}
+  </div>
+  <div class="plan">
+    <h3>Lifetime</h3><div class="price">$99</div>
+    {{if .LifetimeURL}}<a class="btn ghost" href="{{.LifetimeURL}}">Buy lifetime</a>{{end}}
+  </div>
+</div>
+<h2>Have a code?</h2>
+<form method="POST" action="/app/redeem" class="inline-form">
+  <input name="code" placeholder="Enter license code">
+  <button class="btn ghost">Redeem</button>
+</form>
+{{end}}

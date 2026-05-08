@@ -1,0 +1,15 @@
+{{define "title"}}Cover letter — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>✍️ Cover letter</h1>
+<form method="POST" action="/app/cover">
+  <div class="row">
+    <div><label>Job title</label><input name="job_title"></div>
+    <div><label>Company</label><input name="company"></div>
+  </div>
+  <label>Job description</label>
+  <textarea name="job_description" rows="12" required></textarea>
+  <label>Tone / extra notes</label>
+  <textarea name="extra" rows="3" placeholder="e.g. friendly, mention I'm a long-time user of their product"></textarea>
+  <button class="btn primary">Generate cover letter</button>
+</form>
+{{end}}

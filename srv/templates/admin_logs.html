@@ -1,0 +1,6 @@
+{{define "title"}}Logs — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>📋 Logs</h1>
+<nav class="adminnav"><a href="/admin">Overview</a><a href="/admin/users">Users</a><a href="/admin/marketing">Marketing</a><a href="/admin/hosting">Hosting</a><a href="/admin/logs" class="active">Logs</a><a href="/admin/config">Config</a></nav>
+<pre class="logs">{{.Logs}}</pre>
+{{end}}

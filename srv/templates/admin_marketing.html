@@ -1,0 +1,39 @@
+{{define "title"}}Marketing — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>📣 Marketing studio</h1>
+<nav class="adminnav"><a href="/admin">Overview</a><a href="/admin/users">Users</a><a href="/admin/marketing" class="active">Marketing</a><a href="/admin/hosting">Hosting</a><a href="/admin/logs">Logs</a><a href="/admin/config">Config</a></nav>
+<p class="muted">Generate ready-to-paste promo content powered by your AI key. Topic = the angle you want to push (e.g. "tech layoffs survival", "new grad tips").</p>
+<form method="POST" action="/admin/marketing/generate">
+  <div class="row">
+    <div><label>Channel</label>
+      <select name="channel">
+        <option value="x">X / Twitter (5 posts)</option>
+        <option value="linkedin">LinkedIn (1 post)</option>
+        <option value="reddit">Reddit (1 value-first post)</option>
+        <option value="email">Cold email outreach</option>
+        <option value="tiktok">TikTok / Shorts (3 scripts)</option>
+        <option value="seo">SEO blog outline</option>
+      </select>
+    </div>
+    <div><label>CTA URL</label><input name="cta" value="{{if .CTA}}{{.CTA}}{{else}}{{.Cfg.PublicURL}}{{end}}"></div>
+  </div>
+  <label>Topic / angle</label>
+  <input name="topic" value="{{.Topic}}" placeholder="e.g. ATS resume tricks, cover letter templates">
+  <button class="btn primary">Generate</button>
+</form>
+{{if .Output}}
+<h2>Output</h2>
+<pre class="output" id="mout">{{.Output}}</pre>
+<button class="btn ghost" onclick="navigator.clipboard.writeText(document.getElementById('mout').innerText);this.innerText='Copied ✓'">Copy</button>
+{{end}}
+<h2>Quick share links</h2>
+<p class="muted">Click to share your homepage URL.</p>
+{{$u := .Cfg.PublicURL}}{{$t := .Cfg.Tagline}}
+<ul class="share">
+  <li><a target="_blank" href="https://twitter.com/intent/tweet?text={{$t}}&url={{$u}}">Share on X</a></li>
+  <li><a target="_blank" href="https://www.linkedin.com/sharing/share-offsite/?url={{$u}}">Share on LinkedIn</a></li>
+  <li><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{$u}}">Share on Facebook</a></li>
+  <li><a target="_blank" href="https://news.ycombinator.com/submitlink?u={{$u}}&t={{.Brand}}">Submit to HN</a></li>
+  <li><a target="_blank" href="https://www.reddit.com/submit?url={{$u}}&title={{.Brand}}">Submit to Reddit</a></li>
+</ul>
+{{end}}

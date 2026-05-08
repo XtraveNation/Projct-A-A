@@ -1,0 +1,17 @@
+{{define "title"}}Dashboard — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>Welcome{{if .User.Row}}{{if .User.Row.Email}}, {{.User.Row.Email}}{{end}}{{end}}</h1>
+<div class="dash-grid">
+  <a class="tile" href="/app/tailor"><h3>🎯 Tailor a resume</h3><p>Paste a job description → get a perfectly matched resume.</p></a>
+  <a class="tile" href="/app/cover"><h3>✍️ Write a cover letter</h3><p>Warm, hiring-manager-ready in 30 seconds.</p></a>
+  <a class="tile" href="/app/interview"><h3>🧠 Interview prep</h3><p>Likely Qs + STAR answers, tailored.</p></a>
+  <a class="tile" href="/app/applications"><h3>📊 Applications</h3><p>{{len .Applications}} tracked</p></a>
+  <a class="tile" href="/app/profile"><h3>👤 Your profile</h3><p>{{if and .User.Row .User.Row.BaseResume}}Base resume saved ✅{{else}}Add your base resume →{{end}}</p></a>
+  <a class="tile" href="/app/history"><h3>📜 History</h3><p>{{len .Generations}} generations</p></a>
+</div>
+{{if and .User.Row (eq .User.Row.Plan "free")}}
+<p class="plan-note">Plan: <strong>Free</strong> — {{.User.Row.MonthlyCount}}/{{.Quota}} this month. <a href="/app/upgrade">Upgrade →</a></p>
+{{else if .User.Row}}
+<p class="plan-note">Plan: <strong>{{.User.Row.Plan}}</strong> ✨</p>
+{{end}}
+{{end}}

@@ -1,0 +1,12 @@
+{{define "title"}}Profile — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>Your profile</h1>
+<p class="muted">Paste your existing resume once. We'll use it as the base for every tailored output.</p>
+<form method="POST" action="/app/profile">
+  <label>Base resume (plain text or Markdown)</label>
+  <textarea name="base_resume" rows="18" placeholder="Paste your full resume here...">{{if .User.Row}}{{.User.Row.BaseResume}}{{end}}</textarea>
+  <label>Notes about you (optional)</label>
+  <textarea name="profile_notes" rows="5" placeholder="Targets, preferred industries, location, salary range, things to emphasize...">{{if .User.Row}}{{.User.Row.ProfileNotes}}{{end}}</textarea>
+  <button class="btn primary">Save profile</button>
+</form>
+{{end}}

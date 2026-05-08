@@ -1,0 +1,27 @@
+{{define "title"}}{{.Brand}} — {{.Tagline}}{{end}}
+{{define "content"}}
+<section class="hero">
+  <h1>Land more interviews. <span class="hl">Without the writing.</span></h1>
+  <p class="sub">{{.Tagline}}</p>
+  <div class="hero-cta">
+    <a class="btn primary" href="/__exe.dev/login?redirect=/app">Start free →</a>
+    <a class="btn ghost" href="/pricing">See pricing</a>
+  </div>
+  <p class="micro">No credit card. Free forever for casual job hunting.</p>
+</section>
+<section class="features">
+  <div class="f"><h3>🎯 Tailored resumes</h3><p>Paste a job posting. Get an ATS-friendly resume rewritten to match — in 30 seconds.</p></div>
+  <div class="f"><h3>✍️ Cover letters</h3><p>Warm, hiring-manager-ready letters. Never start from a blank page again.</p></div>
+  <div class="f"><h3>🧠 Interview prep</h3><p>Likely questions, STAR-format answers tailored to your resume, and questions to ask back.</p></div>
+  <div class="f"><h3>📊 Application tracker</h3><p>Stop losing track of where you applied. Pipeline view: saved → applied → interview → offer.</p></div>
+</section>
+<section class="how">
+  <h2>How it works</h2>
+  <ol>
+    <li>Paste your existing resume once.</li>
+    <li>Drop in any job description.</li>
+    <li>Get tailored resume + cover letter + interview prep.</li>
+  </ol>
+  <a class="btn primary" href="/__exe.dev/login?redirect=/app">Try it free →</a>
+</section>
+{{end}}

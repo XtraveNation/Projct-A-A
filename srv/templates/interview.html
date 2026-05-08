@@ -1,0 +1,15 @@
+{{define "title"}}Interview prep — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>🧠 Interview prep</h1>
+<form method="POST" action="/app/interview">
+  <div class="row">
+    <div><label>Job title</label><input name="job_title"></div>
+    <div><label>Company</label><input name="company"></div>
+  </div>
+  <label>Job description</label>
+  <textarea name="job_description" rows="12" required></textarea>
+  <label>Anything specific to prep for?</label>
+  <textarea name="extra" rows="3" placeholder="e.g. system design round, behavioral with VP"></textarea>
+  <button class="btn primary">Generate prep pack</button>
+</form>
+{{end}}

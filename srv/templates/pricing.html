@@ -1,0 +1,26 @@
+{{define "title"}}Pricing — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>Simple pricing</h1>
+<div class="plans">
+  <div class="plan">
+    <h3>Free</h3>
+    <div class="price">$0</div>
+    <ul><li>{{.Quota}} generations / month</li><li>Application tracker</li><li>History</li></ul>
+    <a class="btn ghost" href="/__exe.dev/login?redirect=/app">Start free</a>
+  </div>
+  <div class="plan featured">
+    <h3>Pro</h3>
+    <div class="price">${{.PriceUSD}}<span>/mo</span></div>
+    <ul><li>Unlimited tailored resumes</li><li>Unlimited cover letters</li><li>Interview prep</li><li>Priority AI model</li></ul>
+    {{if .ProCheckoutURL}}<a class="btn primary" href="{{.ProCheckoutURL}}">Upgrade to Pro</a>
+    {{else}}<a class="btn primary" href="/app/upgrade">Upgrade</a>{{end}}
+  </div>
+  <div class="plan">
+    <h3>Lifetime</h3>
+    <div class="price">$99</div>
+    <ul><li>Pay once, use forever</li><li>All Pro features</li><li>Future updates included</li></ul>
+    {{if .LifetimeURL}}<a class="btn ghost" href="{{.LifetimeURL}}">Buy lifetime</a>
+    {{else}}<a class="btn ghost" href="/app/upgrade">Get lifetime</a>{{end}}
+  </div>
+</div>
+{{end}}

@@ -1,0 +1,11 @@
+{{define "title"}}History — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>📜 History</h1>
+<ul class="history">
+{{range .Generations}}
+  <li><a href="/app/history/{{.ID}}"><strong>{{.Kind}}</strong> · {{.JobTitle}} @ {{.Company}} <span class="muted">{{fmtTime .CreatedAt}}</span></a></li>
+{{else}}
+  <li class="muted">Nothing yet. Try <a href="/app/tailor">tailoring a resume</a>.</li>
+{{end}}
+</ul>
+{{end}}

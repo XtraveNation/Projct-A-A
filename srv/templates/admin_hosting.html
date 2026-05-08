@@ -1,0 +1,25 @@
+{{define "title"}}Hosting — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>🖥️ Hosting</h1>
+<nav class="adminnav"><a href="/admin">Overview</a><a href="/admin/users">Users</a><a href="/admin/marketing">Marketing</a><a href="/admin/hosting" class="active">Hosting</a><a href="/admin/logs">Logs</a><a href="/admin/config">Config</a></nav>
+<div class="stats">
+  <div class="stat"><div class="n">{{.Info.Hostname}}</div><div class="l">Hostname</div></div>
+  <div class="stat"><div class="n">{{.Info.GoVersion}}</div><div class="l">Go</div></div>
+  <div class="stat"><div class="n">{{.Info.NumCPU}}</div><div class="l">CPUs</div></div>
+  <div class="stat"><div class="n">{{.Info.SystemdState}}</div><div class="l">srv state</div></div>
+  <div class="stat"><div class="n">{{.Info.Uptime}}</div><div class="l">Uptime</div></div>
+</div>
+<h3>Disk</h3><pre>{{.Info.DiskFree}}</pre>
+<h3>Memory</h3><pre>{{.Info.MemInfo}}</pre>
+<h3>Paths</h3>
+<ul><li>Config: <code>{{.Info.ConfigPath}}</code></li><li>DB: <code>{{.Info.DBPath}}</code></li></ul>
+<form method="POST" action="/admin/hosting/restart" onsubmit="return confirm('Restart srv now?')">
+  <button class="btn primary">Restart srv (systemd)</button>
+</form>
+{{if .Info.Notes}}<h3>Notes</h3><pre>{{.Info.Notes}}</pre>{{end}}
+<h3>Quick commands (run via SSH)</h3>
+<pre>sudo systemctl status srv
+sudo journalctl -u srv -f
+make build && sudo systemctl restart srv
+sqlite3 db.sqlite3 .dump | gzip > backup-$(date +%F).sql.gz</pre>
+{{end}}

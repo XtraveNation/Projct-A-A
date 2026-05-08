@@ -1,0 +1,31 @@
+{{define "title"}}Config — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>⚙️ Configuration</h1>
+<nav class="adminnav"><a href="/admin">Overview</a><a href="/admin/users">Users</a><a href="/admin/marketing">Marketing</a><a href="/admin/hosting">Hosting</a><a href="/admin/logs">Logs</a><a href="/admin/config" class="active">Config</a></nav>
+<form method="POST" action="/admin/config">
+  <h3>Branding</h3>
+  <div class="row"><div><label>Brand name</label><input name="brand_name" value="{{.Cfg.BrandName}}"></div>
+  <div><label>Public URL</label><input name="public_url" value="{{.Cfg.PublicURL}}" placeholder="https://jobpilot.example.com"></div></div>
+  <label>Tagline</label><input name="tagline" value="{{.Cfg.Tagline}}">
+  <h3>AI</h3>
+  <div class="row"><div><label>OpenAI API key</label><input name="openai_key" value="{{.Cfg.OpenAIKey}}" placeholder="sk-..." type="password"></div>
+  <div><label>Model</label><input name="openai_model" value="{{.Cfg.OpenAIModel}}"></div></div>
+  <label>API base URL (use OpenRouter, Together, etc.)</label><input name="openai_base_url" value="{{.Cfg.OpenAIBaseURL}}">
+  <h3>Pricing</h3>
+  <div class="row">
+    <div><label>Free monthly quota</label><input name="free_monthly_quota" type="number" value="{{.Cfg.FreeMonthlyQuota}}"></div>
+    <div><label>Pro price (USD/mo)</label><input name="pro_price_usd" type="number" value="{{.Cfg.ProPriceUSD}}"></div>
+  </div>
+  <label>Pro checkout URL (Stripe / Lemon Squeezy / Gumroad)</label><input name="pro_checkout_url" value="{{.Cfg.ProCheckoutURL}}">
+  <label>Lifetime checkout URL</label><input name="lifetime_url" value="{{.Cfg.LifetimeURL}}">
+  <label>Redeem secret (license code prefix)</label><input name="redeem_secret" value="{{.Cfg.RedeemSecret}}">
+  <h3>Admin</h3>
+  <label>Admin emails (comma-separated)</label><input name="admin_emails" value="{{range $i, $e := .Cfg.AdminEmails}}{{if $i}}, {{end}}{{$e}}{{end}}">
+  <h3>Marketing</h3>
+  <label>Marketing system prompt</label><textarea name="marketing_prompt" rows="3">{{.Cfg.MarketingPrompt}}</textarea>
+  <h3>Misc</h3>
+  <label>Analytics / head HTML (Plausible, GA, etc.)</label><textarea name="analytics_tag" rows="3">{{.Cfg.AnalyticsTag}}</textarea>
+  <label>Hosting notes (visible in /admin/hosting)</label><textarea name="hosting_notes" rows="3">{{.Cfg.HostingNotes}}</textarea>
+  <button class="btn primary">Save config</button>
+</form>
+{{end}}

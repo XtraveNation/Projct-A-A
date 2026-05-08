@@ -1,0 +1,39 @@
+{{define "title"}}Applications — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>📊 Applications</h1>
+<form method="POST" action="/app/applications" class="inline-form">
+  <input name="company" placeholder="Company" required>
+  <input name="role" placeholder="Role" required>
+  <input name="url" placeholder="Job URL (optional)">
+  <select name="status">
+    <option value="saved">Saved</option>
+    <option value="applied" selected>Applied</option>
+    <option value="interview">Interview</option>
+    <option value="offer">Offer</option>
+    <option value="rejected">Rejected</option>
+  </select>
+  <button class="btn primary">Add</button>
+</form>
+<table class="apps">
+  <tr><th>Company</th><th>Role</th><th>Status</th><th>Updated</th><th></th></tr>
+  {{range .Applications}}
+  <tr>
+    <td>{{if .Url}}<a href="{{.Url}}" target="_blank">{{.Company}}</a>{{else}}{{.Company}}{{end}}</td>
+    <td>{{.Role}}</td>
+    <td>
+      <form method="POST" action="/app/applications/{{.ID}}" class="inline">
+        <select name="status" onchange="this.form.submit()">
+          {{$cur := .Status}}
+          {{range $s := (slice "saved" "applied" "interview" "offer" "rejected")}}
+            <option value="{{$s}}" {{if eq $s $cur}}selected{{end}}>{{$s}}</option>
+          {{end}}
+        </select>
+        <input type="hidden" name="notes" value="{{.Notes}}">
+      </form>
+    </td>
+    <td>{{fmtTime .UpdatedAt}}</td>
+    <td><form method="POST" action="/app/applications/{{.ID}}/delete" class="inline"><button class="linkbtn danger">×</button></form></td>
+  </tr>
+  {{end}}
+</table>
+{{end}}

@@ -1,0 +1,10 @@
+{{define "title"}}{{.Gen.Kind}} — {{.Brand}}{{end}}
+{{define "content"}}
+<a href="/app/history">← back</a>
+<h1>{{.Gen.Kind}}: {{.Gen.JobTitle}} @ {{.Gen.Company}}</h1>
+<p class="muted">{{fmtTime .Gen.CreatedAt}}</p>
+<details><summary>Original job description</summary><pre class="jd">{{.Gen.JobDescription}}</pre></details>
+<h2>Output</h2>
+<pre class="output" id="out">{{.Gen.Output}}</pre>
+<button class="btn ghost" onclick="navigator.clipboard.writeText(document.getElementById('out').innerText);this.innerText='Copied ✓'">Copy</button>
+{{end}}

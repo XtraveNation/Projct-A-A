@@ -1,0 +1,22 @@
+# Optional: SSH-deploy to your VPS on push to main.
+# Set GitHub secrets: VPS_HOST, VPS_USER, VPS_SSH_KEY (private key).
+name: Deploy
+on:
+  push: { branches: [main] }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd ~/jobpilot
+            git pull --ff-only
+            /usr/local/go/bin/go build -o jobpilot ./cmd/srv || go build -o jobpilot ./cmd/srv
+            sudo systemctl restart jobpilot

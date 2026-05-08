@@ -1,0 +1,23 @@
+{{define "title"}}Admin — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>🛠️ Admin</h1>
+<nav class="adminnav">
+  <a href="/admin">Overview</a>
+  <a href="/admin/users">Users</a>
+  <a href="/admin/marketing">Marketing</a>
+  <a href="/admin/hosting">Hosting</a>
+  <a href="/admin/logs">Logs</a>
+  <a href="/admin/config">Config</a>
+</nav>
+<div class="stats">
+  <div class="stat"><div class="n">{{.Stats.Users}}</div><div class="l">Users</div></div>
+  <div class="stat"><div class="n">{{.Stats.ProUsers}}</div><div class="l">Paid</div></div>
+  <div class="stat"><div class="n">{{.Stats.GenerationsTotal}}</div><div class="l">Total gens</div></div>
+  <div class="stat"><div class="n">{{.Stats.Generations24h}}</div><div class="l">Gens 24h</div></div>
+  <div class="stat"><div class="n">{{.Stats.Applications}}</div><div class="l">Apps tracked</div></div>
+  <div class="stat"><div class="n">{{printf "%.2f" .Stats.DBSizeMB}} MB</div><div class="l">DB size</div></div>
+  <div class="stat"><div class="n">{{.Stats.Uptime}}</div><div class="l">Uptime</div></div>
+  <div class="stat"><div class="n">{{.Stats.Goroutines}}</div><div class="l">Goroutines</div></div>
+</div>
+<p class="muted">Hostname: <code>{{.Stats.Hostname}}</code> · Public URL: <code>{{.Stats.PublicURL}}</code></p>
+{{end}}

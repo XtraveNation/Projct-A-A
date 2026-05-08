@@ -1,0 +1,16 @@
+{{define "title"}}Tailor resume — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>🎯 Tailor your resume</h1>
+<p class="muted">Make sure your <a href="/app/profile">base resume</a> is filled in first.</p>
+<form method="POST" action="/app/tailor">
+  <div class="row">
+    <div><label>Job title</label><input name="job_title" placeholder="Senior Backend Engineer"></div>
+    <div><label>Company</label><input name="company" placeholder="Acme Inc."></div>
+  </div>
+  <label>Job description</label>
+  <textarea name="job_description" rows="12" required placeholder="Paste the full job posting..."></textarea>
+  <label>Extra instructions (optional)</label>
+  <textarea name="extra" rows="3" placeholder="e.g. emphasize Go and AWS, keep to 1 page"></textarea>
+  <button class="btn primary">Generate tailored resume</button>
+</form>
+{{end}}

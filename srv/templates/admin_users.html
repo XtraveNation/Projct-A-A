@@ -1,0 +1,28 @@
+{{define "title"}}Users — {{.Brand}}{{end}}
+{{define "content"}}
+<h1>👥 Users</h1>
+<nav class="adminnav"><a href="/admin">Overview</a><a href="/admin/users" class="active">Users</a><a href="/admin/marketing">Marketing</a><a href="/admin/hosting">Hosting</a><a href="/admin/logs">Logs</a><a href="/admin/config">Config</a></nav>
+<table class="apps">
+<tr><th>Email</th><th>Plan</th><th>Gens</th><th>Created</th><th>Last seen</th><th>Actions</th></tr>
+{{range .Users}}
+<tr>
+  <td>{{.Email}}</td>
+  <td><span class="badge {{.Plan}}">{{.Plan}}</span></td>
+  <td>{{.Gens}}</td>
+  <td>{{fmtTime .Created}}</td>
+  <td>{{fmtTime .LastSeen}}</td>
+  <td>
+    <form method="POST" action="/admin/users/plan" class="inline">
+      <input type="hidden" name="user_id" value="{{.ID}}">
+      <select name="plan">
+        <option value="free" {{if eq .Plan "free"}}selected{{end}}>free</option>
+        <option value="pro" {{if eq .Plan "pro"}}selected{{end}}>pro</option>
+        <option value="lifetime" {{if eq .Plan "lifetime"}}selected{{end}}>lifetime</option>
+      </select>
+      <button class="btn ghost small">Set</button>
+    </form>
+  </td>
+</tr>
+{{end}}
+</table>
+{{end}}
